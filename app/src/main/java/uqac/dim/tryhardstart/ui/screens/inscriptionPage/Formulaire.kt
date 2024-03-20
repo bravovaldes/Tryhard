@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -24,6 +25,8 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +39,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.togitech.ccp.component.TogiCountryCodePicker
 import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.NoirClair
@@ -49,22 +53,21 @@ import uqac.dim.tryhardstart.viewmodel.SignupViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
+    val signupStatusMessage by signupViewModel.signupStatusMessage.collectAsState()
     Column (
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(top = 15.dp),
     ){
         Column {
+            if (signupStatusMessage.isNotEmpty()) {
+                Text(text = signupStatusMessage)
+            }
             Row(
                 modifier = Modifier.offset(y=5.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
 
-                    color = Green,
-                    text = "Nom d'utilisateur",
-                    fontFamily = poppins,
-                    fontWeight = FontWeight.SemiBold)
                 Text(
                     text =signupViewModel.usernameError.value?:"",
                     color = Color.Red,
@@ -99,11 +102,7 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
         }
         Column {
             Row {
-                Text(
-                    color = Green,
-                    text = "Email",
-                    fontFamily = poppins,
-                    fontWeight = FontWeight.SemiBold)
+
                 Text(
                     text =signupViewModel.emailError.value?:"",
                     color = Color.Red,
@@ -111,28 +110,13 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                 )
             }
 
-            OutlinedTextField(
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_email_24) ,
-                        contentDescription = null)
-                },
-                label = {
-                    Text(text = "Entrer Votre Email",fontFamily = poppins)
-                },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(8.dp),
-
-                value =signupViewModel.email.value ,
-                onValueChange ={
-                               signupViewModel.email.value = it
-                               signupViewModel.validateEmail()
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedBorderColor = Color.Black
-
-                )
-
+            TogiCountryCodePicker(
+                modifier = Modifier.width(
+                    400.dp
+                ),
+                text = signupViewModel.email.value,
+                onValueChange = { signupViewModel.email.value = it },
+                shape = RoundedCornerShape(10.dp)
             )
         }
         Column {
@@ -141,11 +125,7 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                 horizontalArrangement = Arrangement.spacedBy(1.dp),
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Text(
-                    color = Green,
-                    text = "Mot de passe",
-                    fontFamily = poppins,
-                    fontWeight = FontWeight.SemiBold)
+
                 Text(
                     text =signupViewModel.passwordError.value?:"",
                     color = Color.Red,
@@ -190,10 +170,7 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                 horizontalArrangement = Arrangement.spacedBy(1.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Confimer Mot de passe",
-                    color = Green, fontFamily = poppins,
-                    fontWeight = FontWeight.SemiBold)
+
                 Text(
                     text = signupViewModel.confirmPasswordError.value?:"",
                     color = Color.Red,
@@ -236,12 +213,44 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                 .height(60.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Orange
+                containerColor = Green
             ),
-            onClick = { /*TODO*/ }
+            onClick = {
+                signupViewModel.signUser()
+            }
         ) {
             Text(text = "S'incrire",fontFamily = poppins)
         }
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
+                .height(50.dp)
+            ,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Orange.copy(0.1f),
+                contentColor = Color.Black,
+            ),
+            shape = RoundedCornerShape(8.dp),
+            border = BorderStroke(1.dp, Color.Black),
+            onClick = { /*TODO*/ }
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(27.dp),
+                    painter = painterResource(id = R.drawable.googl) ,
+                    contentDescription =null )
+                Text(
+                    modifier = Modifier,
+                    text = "Se Connecter avec Google",
+                    fontFamily = poppins
+                )
+            }}
         
     }
 }

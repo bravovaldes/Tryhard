@@ -73,4 +73,6 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation("com.github.togisoft:jetpack_compose_country_code_picker:1.1.4")
 }

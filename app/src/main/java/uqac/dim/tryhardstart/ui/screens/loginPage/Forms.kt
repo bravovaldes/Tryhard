@@ -227,7 +227,7 @@ fun Forms(){
 
             }
         }
-        Text(modifier = Modifier.fillMaxWidth().padding(top = 28.dp), textAlign = TextAlign.Center, text = inscription)
+        Text(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), textAlign = TextAlign.Center, text = inscription)
     }
 
 }
