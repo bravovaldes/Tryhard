@@ -35,8 +35,8 @@ class MainActivity : ComponentActivity() {
                         }
                     ) {
                         //Place()
-                        Trajet()
-                        //InscriptionPage()
+                        //Trajet()
+                        InscriptionPage()
                         //Recherche()
                     }
                     //StartPage()

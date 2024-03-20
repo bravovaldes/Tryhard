@@ -98,12 +98,19 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
             )
         }
         Column {
-            Text(
-                modifier = Modifier.offset(y=5.dp),
-                color = Green,
-                text = "Email",
-                fontFamily = poppins,
-                fontWeight = FontWeight.SemiBold)
+            Row {
+                Text(
+                    color = Green,
+                    text = "Email",
+                    fontFamily = poppins,
+                    fontWeight = FontWeight.SemiBold)
+                Text(
+                    text =signupViewModel.emailError.value?:"",
+                    color = Color.Red,
+                    fontSize = 9.sp
+                )
+            }
+
             OutlinedTextField(
                 leadingIcon = {
                     Icon(
@@ -116,8 +123,11 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp),
 
-                value ="" ,
-                onValueChange ={},
+                value =signupViewModel.email.value ,
+                onValueChange ={
+                               signupViewModel.email.value = it
+                               signupViewModel.validateEmail()
+                },
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Color.Black
 
@@ -175,11 +185,22 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
             )
         }
         Column {
-            Text(
+            Row(
                 modifier = Modifier.offset(y=5.dp),
-                text = "Confimer Mot de passe",
-                color = Green, fontFamily = poppins,
-                fontWeight = FontWeight.SemiBold)
+                horizontalArrangement = Arrangement.spacedBy(1.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Confimer Mot de passe",
+                    color = Green, fontFamily = poppins,
+                    fontWeight = FontWeight.SemiBold)
+                Text(
+                    text = signupViewModel.confirmPasswordError.value?:"",
+                    color = Color.Red,
+                    fontSize = 11.sp
+                    )
+            }
+
             OutlinedTextField(
                 leadingIcon = {
                     Icon(
@@ -197,8 +218,11 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp),
 
-                value ="" ,
-                onValueChange ={},
+                value =signupViewModel.confirmPassword.value,
+                onValueChange ={
+                               signupViewModel.confirmPassword.value = it
+                               signupViewModel.confirmPassword()
+                },
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Color.Black
 

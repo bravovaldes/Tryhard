@@ -1,5 +1,6 @@
 package uqac.dim.tryhardstart.viewmodel
 
+import android.util.Patterns
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
@@ -34,10 +35,21 @@ class SignupViewModel : ViewModel(){
     fun confirmPassword(){
         confirmPasswordError.value =
             if (password.value != confirmPassword.value)
-                "les deux mots de passe ne correspondent pas"
+                "ne correspondent pas"
             else
                 ""
     }
+
+    fun validateEmail(){
+        emailError.value = if(!(Patterns.EMAIL_ADDRESS.matcher(email.value).matches()))
+                   "Votre Email est invalide"
+
+                else
+                    ""
+    }
+
+    fun allFields() = usernameError.value== null && emailError.value==null &&
+                      passwordError.value== null && confirmPasswordError.value == null
 
 
 }
