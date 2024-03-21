@@ -51,7 +51,7 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.compose.material:material:1.6.3")
+    implementation ("androidx.compose.material:material:1.6.0")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
@@ -74,5 +74,5 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
-    implementation("com.github.togisoft:jetpack_compose_country_code_picker:1.1.4")
+    implementation("com.github.jump-sdk:jetpack_compose_country_code_picker_emoji:2.2.8")
 }

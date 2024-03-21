@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import uqac.dim.tryhardstart.ui.screens.bottomNavigation.BottomNavigationBar
 import uqac.dim.tryhardstart.ui.screens.inscriptionPage.InscriptionPage
+import uqac.dim.tryhardstart.ui.screens.loginPage.LoginPage
 import uqac.dim.tryhardstart.ui.screens.trajet.Trajet
 import uqac.dim.tryhardstart.ui.theme.TryHardStartTheme
 
