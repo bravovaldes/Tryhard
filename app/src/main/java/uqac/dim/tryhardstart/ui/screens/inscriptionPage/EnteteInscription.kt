@@ -30,6 +30,7 @@ import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.amaranth
 import uqac.dim.tryhardstart.ui.theme.aptos
+import uqac.dim.tryhardstart.ui.theme.arial
 import uqac.dim.tryhardstart.ui.theme.monsterart
 import uqac.dim.tryhardstart.ui.theme.poppins
 
@@ -73,10 +74,15 @@ fun EnteteInscription(){
                 textAlign = TextAlign.Center,
                 color = Orange,
                 text = "Inscrption",
-                fontFamily = monsterart,
+                fontFamily = arial,
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp)
-            Text(text = "Entrez Vos Informations Svp", fontFamily = amaranth)
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                text = "Entrez Vos Informations Svp",
+                fontFamily = arial,
+            )
         }
 
     }

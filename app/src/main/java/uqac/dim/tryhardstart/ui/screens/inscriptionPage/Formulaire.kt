@@ -1,10 +1,13 @@
 package uqac.dim.tryhardstart.ui.screens.inscriptionPage
 
+import android.app.Activity
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,16 +44,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.togitech.ccp.component.TogiCountryCodePicker
 import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Green
@@ -57,6 +69,7 @@ import uqac.dim.tryhardstart.ui.theme.NoirClair
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.Swipe
 import uqac.dim.tryhardstart.ui.theme.amaranth
+import uqac.dim.tryhardstart.ui.theme.arial
 import uqac.dim.tryhardstart.ui.theme.poppins
 import uqac.dim.tryhardstart.ui.theme.roboto
 import uqac.dim.tryhardstart.viewmodel.SignupViewModel
@@ -64,35 +77,30 @@ import uqac.dim.tryhardstart.viewmodel.SignupViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
-//    val myCustomColors = TextFieldDefaults.colors(
-//        //textColor = Color.Black, // Couleur du texte
-//        disabledTextColor = Color.Gray, // Couleur du texte lorsque le champ est désactivé
-//        cursorColor = Color.Blue, // Couleur du curseur
-//        //leadingIconColor = Color.DarkGray, // Couleur de l'icône de début
-//        //trailingIconColor = Color.DarkGray, // Couleur de l'icône de fin
-////        focusedBorderColor = Color.Green, // Couleur de la bordure lorsqu'elle est focalisée
-////        unfocusedBorderColor = Color.Red, // Couleur de la bordure lorsqu'elle n'est pas focalisée
-////        disabledBorderColor = Color.Gray, // Couleur de la bordure lorsqu'elle est désactivée
-//        // et autres paramètres selon vos besoins
-//    )
-
+fun Formulaire(signupViewModel: SignupViewModel= viewModel(),navController: NavController){
+    val complete by signupViewModel.complete.collectAsState()
+    val context = LocalContext.current
     var phoneNumber: String by remember { mutableStateOf("") }
     var phone: String by remember { mutableStateOf("") }
     var fullPhoneNumber: String by remember { mutableStateOf("") }
     var isNumberValid: Boolean by remember { mutableStateOf(false) }
     val signupStatusMessage by signupViewModel.signupStatusMessage.collectAsState()
+    var passwordVisibility by remember { mutableStateOf(false) }
+
     Column (
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.padding(top = 15.dp),
+        modifier = Modifier.padding(top = 15.dp, start = 10.dp, end = 10.dp),
     ){
         Column {
             if (signupStatusMessage.isNotEmpty()) {
                 Text(text = signupStatusMessage)
             }
+            //Text(text = signupViewModel.message.value)
             Row(
-                modifier = Modifier.offset(y=5.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier
+                    .offset(y = 5.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
@@ -110,7 +118,7 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                                   contentDescription = null)
                 },
                 label = {
-                    Text(text = "Entrer Votre nom",fontFamily = poppins)
+                    Text(text = "Entrer Votre nom",fontFamily = arial)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -123,7 +131,15 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                                signupViewModel.validateUsername()
                 },
                 colors = OutlinedTextFieldDefaults.colors(
+                    focusedLabelColor = Green,
+                    focusedBorderColor = Orange,
                     unfocusedBorderColor = Color.Black
+                ),
+                textStyle = TextStyle(
+                    textDecoration = TextDecoration.None,
+                    fontFamily = arial,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
                 )
 
             )
@@ -133,6 +149,28 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
         Column {
 
             val focusRequester = FocusRequester()
+            if(!isNumberValid){
+                if (phoneNumber.isNotEmpty()){
+                    Row(
+                        modifier = Modifier
+                            .offset(y = (-3).dp)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+
+                        Text(
+                            text ="numero Invalide",
+                            color = Color.Red,
+                            fontFamily = arial,
+                            fontSize = 10.sp
+                        )
+
+                    }
+                }
+                
+            }
+            Spacer(modifier = Modifier.height(10.dp))
 
             TogiCountryCodePicker(
                 showError = false,
@@ -142,11 +180,17 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                     .focusRequester(focusRequester),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     //textColor = Green,
-                    unfocusedBorderColor = Color.Black,
-                    focusedBorderColor = Color.Green
+                    focusedLabelColor = Green,
+                    focusedBorderColor = Orange,
+                    unfocusedBorderColor = Color.Black
                 ) ,
-
-                label = { Text("Phone Number") },
+                textStyle = TextStyle(
+                    textDecoration = TextDecoration.None,
+                    fontFamily = arial,
+                    fontSize = 20.sp,
+                   // fontWeight = FontWeight.Bold
+                ),
+                //label = { Text("Phone Number") },
                 onValueChange = { (code, phone), isValid ->
                     //Log.d("CCP", "onValueChange: $code $phone -> $isValid")
 
@@ -155,10 +199,12 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                     isNumberValid = isValid
                 },
 
+
             )
-            if (phone.isNotEmpty()){
-                Text(text = phone)
-            }
+            signupViewModel.phoneNumer.value=fullPhoneNumber
+//            if (phone.isNotEmpty()){
+//                Text(text = phone)
+//            }
 
             LaunchedEffect(Unit) {
                 focusManager.clearFocus()
@@ -167,15 +213,18 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
 
         Column {
             Row(
-                modifier = Modifier.offset(y=5.dp),
-                horizontalArrangement = Arrangement.spacedBy(1.dp),
+                modifier = Modifier
+                    .offset(y = 5.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ){
 
                 Text(
                     text =signupViewModel.passwordError.value?:"",
                     color = Color.Red,
-                    fontSize = 8.sp
+                    fontFamily = arial,
+                    fontSize = 10.sp
                 )
 
             }
@@ -189,11 +238,19 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                // isError = ,
                 trailingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_visibility_off_24) ,
+                        modifier = Modifier.clickable {
+                                                      passwordVisibility=!passwordVisibility
+                        },
+                        painter = painterResource(
+                            id = if
+                                    (!passwordVisibility) R.drawable.baseline_visibility_off_24
+                            else
+                                   R.drawable.baseline_visibility_24
+                        ) ,
                         contentDescription = null)
                 },
                 label = {
-                    Text(text = "Entrer Votre mot de passe",fontFamily = poppins)
+                    Text(text = "Entrer Votre mot de passe",fontFamily = arial)
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(23.dp),
@@ -204,9 +261,21 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                                signupViewModel.validatePassword()
                 },
                 colors = OutlinedTextFieldDefaults.colors(
+                    focusedLabelColor = Green,
+                    focusedBorderColor = Orange,
                     unfocusedBorderColor = Color.Black
-
-                )
+                ),
+                textStyle = TextStyle(
+                    textDecoration = TextDecoration.None,
+                    fontFamily = arial,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                ),
+                visualTransformation =
+                if(!passwordVisibility) PasswordVisualTransformation()
+                else VisualTransformation.None
+                ,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
 
             )
         }
@@ -236,7 +305,7 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                         contentDescription = null)
                 },
                 label = {
-                    Text(text = "Confimer le mot de passe",fontFamily = poppins)
+                    Text(text = "Confimer le mot de passe",fontFamily = arial)
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(23.dp),
@@ -247,11 +316,24 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                                signupViewModel.confirmPassword()
                 },
                 colors = OutlinedTextFieldDefaults.colors(
+                    focusedLabelColor = Green,
+                    focusedBorderColor = Orange,
                     unfocusedBorderColor = Color.Black
-
+                ),
+                textStyle = TextStyle(
+                    textDecoration = TextDecoration.None,
+                    fontFamily = arial,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
                 )
 
             )
+        }
+
+        LaunchedEffect(complete){
+            if (complete){
+               navController.navigate("codeOtp")
+          }
         }
         Button(
             modifier = Modifier
@@ -262,12 +344,18 @@ fun Formulaire(signupViewModel: SignupViewModel= viewModel()){
                 containerColor = Green
             ),
             onClick = {
+
+                signupViewModel.sendVerificationCode(fullPhoneNumber, context as Activity)
                 phone = if (isNumberValid){
                     "Numero valide"
                 } else{
                     "numero invalid"
                 }
-                //signupViewModel.signUser()
+                if (signupViewModel.complete.value){
+                    navController.navigate("codeOtp")
+                }
+
+
             }
         ) {
             Text(text = "S'incrire",fontFamily = poppins)

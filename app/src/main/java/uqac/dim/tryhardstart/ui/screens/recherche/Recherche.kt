@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
@@ -26,6 +27,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,75 +39,107 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import uqac.dim.tryhardstart.R
+import uqac.dim.tryhardstart.ui.screens.agence.ajouterBus.Envoyer
 import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.amaranth
 import uqac.dim.tryhardstart.ui.theme.poppins
+import uqac.dim.tryhardstart.viewmodel.BusinessAccountViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Recherche(){
-
-    Column(
-        modifier = Modifier
-    ){
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.30f)
-                .background(Green, RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp))
-        ) {
+fun Recherche(businessAccountViewModel: BusinessAccountViewModel){
+  LaunchedEffect(Unit){
+      businessAccountViewModel.verificationSuccess()
+  }
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(1f)
+    ) {
+        item {
             Column(
                 modifier = Modifier
-                    .padding(start = 20.dp, end = 20.dp)
-                    .fillMaxHeight(0.6f),
-                verticalArrangement = Arrangement.SpaceBetween
+                    .fillMaxWidth()
+                    .height(if (businessAccountViewModel.modeUser.value) 200.dp else 200.dp)
+                    .background(Green, RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp))
             ) {
-                Entete()
-                Desciption()
-            }
-        }
-        Column {
-            Box {
                 Column(
                     modifier = Modifier
-                        .offset(y = (-45).dp)
+                        .padding(
+                            start = 20.dp,
+                            end = 20.dp
+                        )
+                        .fillMaxHeight(0.6f),
+                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    From()
-                    Spacer(modifier = Modifier.height(15.dp))
-                    To()
+                    Entete()
+                    Desciption(businessAccountViewModel)
+                }
+            }
+            Column (
+                modifier = Modifier.fillMaxSize()
+
+            ){
+                Box(
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .zIndex(0f)
+                            //.fillMaxSize()
+                            .offset(y = if (businessAccountViewModel.modeUser.value) (-45).dp else (-83).dp)
+                    ) {
+                        From(businessAccountViewModel)
+                        Spacer(modifier = Modifier.height(5.dp))
+                        To(businessAccountViewModel)
+
+                    }
+                    Card(
+                        modifier = Modifier
+                            .zIndex(12f)
+                            .align(Alignment.TopEnd)
+                            .padding(
+                                end = 45.dp,
+                                top = if (businessAccountViewModel.modeUser.value) 30.dp else 0.dp
+                            )
+                            .offset(y = if (businessAccountViewModel.modeUser.value) 0.dp else (-14).dp)
+                            .size(40.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Orange.copy(0.7f)
+                        )
+
+                    ) {
+                        Box(modifier = Modifier
+                            .fillMaxSize()
+                            .zIndex(4f), contentAlignment = Alignment.Center){
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_swap_calls_24),
+                                contentDescription =null, tint = Color.White )
+                        }
+
+                    }
+
 
                 }
-                Card(
+                Column(
                     modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(end = 45.dp, top = 30.dp)
-                        .size(40.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Orange.copy(0.7f)
-                    )
-
+                        .padding(
+                            horizontal = 20.dp,
+                            vertical = if (businessAccountViewModel.modeUser.value) 20.dp else 0.dp
+                        )
+                        .offset(y = if (businessAccountViewModel.modeUser.value) (-45).dp else (-80).dp)
                 ) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_swap_calls_24),
-                            contentDescription =null, tint = Color.White )
+                    if ((businessAccountViewModel.modeUser.value)){
+                        Personnalisation(businessAccountViewModel)
+                    }
+                    else{
+                        Envoyer(businessAccountViewModel)
                     }
 
                 }
 
-
             }
-            Column(
-                modifier = Modifier.padding(20.dp).offset(y= (-45).dp)
-            ) {
-                Personnalisation()
-
-            }
-
         }
-
     }
 
 

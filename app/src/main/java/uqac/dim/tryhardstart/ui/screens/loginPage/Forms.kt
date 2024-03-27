@@ -1,9 +1,11 @@
 package uqac.dim.tryhardstart.ui.screens.loginPage
 
+import android.app.Activity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,29 +26,54 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.togitech.ccp.component.TogiCountryCodePicker
 import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.NoirClair
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.Swipe
 import uqac.dim.tryhardstart.ui.theme.amaranth
+import uqac.dim.tryhardstart.ui.theme.arial
 import uqac.dim.tryhardstart.ui.theme.poppins
 import uqac.dim.tryhardstart.ui.theme.roboto
+import uqac.dim.tryhardstart.viewmodel.SignupViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Forms(){
+fun Forms(navController: NavController,signupViewModel: SignupViewModel){
+    val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
+    val focusRequester = FocusRequester()
+    var phoneNumber: String by remember { mutableStateOf("") }
+    var phone: String by remember { mutableStateOf("") }
+    var fullPhoneNumber: String by remember { mutableStateOf("") }
+    var isNumberValid: Boolean by remember { mutableStateOf(false) }
+    val complete by signupViewModel.complete.collectAsState()
+
     val inscription = buildAnnotatedString {
         withStyle(style = SpanStyle(color = NoirClair)) {
             append("Vous N'avez pas de Compte?")
@@ -53,9 +81,9 @@ fun Forms(){
         withStyle(
             style = SpanStyle(
                 color = Orange,
-                fontFamily = amaranth,
+                fontFamily = arial,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 25.sp
+                fontSize = 27.sp
             ),
         ) {
             append("S'incrire")
@@ -66,56 +94,120 @@ fun Forms(){
     ) {
         Text(
             text = "Connexion",
-            fontFamily = poppins,
+            fontFamily = arial,
             fontSize = 35.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            leadingIcon = {
-                          Icon(
-                              painter = painterResource(id = R.drawable.baseline_email_24) ,
-                              contentDescription = null)
-            },
+        Spacer(modifier = Modifier.height(30.dp))
+        if(!isNumberValid){
+            if (phoneNumber.isNotEmpty()){
+                Row(
+                    modifier = Modifier
+                        .offset(y = (-3).dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ){
 
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedContainerColor = Color(0xFFC6D2EE),
-                unfocusedBorderColor = Color(0xFFEDF0F7),
-            ),
-            value = "",
-            onValueChange = {
+                    Text(
+                        text ="numero Invalide",
+                        color = Color.Red,
+                        fontFamily = arial,
+                        fontSize = 10.sp
+                    )
 
-            },
-            label = {
-                Text(text = "Email", fontWeight = FontWeight.Bold)
+                }
             }
+
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        TogiCountryCodePicker(
+            showError = false,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 0.dp)
+                .focusRequester(focusRequester),
+            colors = androidx.compose.material.TextFieldDefaults.outlinedTextFieldColors(
+                //textColor = Green,
+                focusedLabelColor = Green,
+                focusedBorderColor = Orange,
+                unfocusedBorderColor = Color.Black,
+
+            ) ,
+            textStyle = TextStyle(
+                textDecoration = TextDecoration.None,
+                fontFamily = arial,
+                fontSize = 20.sp,
+                // fontWeight = FontWeight.Bold
+            ),
+            //label = { Text("Phone Number") },
+            onValueChange = { (code, phone), isValid ->
+                //Log.d("CCP", "onValueChange: $code $phone -> $isValid")
+                phoneNumber = phone
+                fullPhoneNumber = code + phone
+                isNumberValid = isValid
+            },
+
+
             )
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_lock_24),
-                    contentDescription = null)
-            },
-            trailingIcon = {
-                           Icon(
-                               painter = painterResource(id = R.drawable.baseline_visibility_off_24),
-                               contentDescription =null )
-            },
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedContainerColor = Color(0xFFC6D2EE),
-                unfocusedBorderColor = Color(0xFFEDF0F7),
-            ),
-            value = "",
-            onValueChange = {
-
-            },
-            label = {
-                Text(text = "Mot de passe",fontWeight = FontWeight.Bold)
+        LaunchedEffect(Unit) {
+            focusManager.clearFocus()
+        }
+        LaunchedEffect(complete){
+            if (complete){
+                navController.navigate("codeOtp")
             }
-        )
+        }
+
+        signupViewModel.phoneNumer.value=fullPhoneNumber
+//        OutlinedTextField(
+//            modifier = Modifier.fillMaxWidth(),
+//            leadingIcon = {
+//                          Icon(
+//                              painter = painterResource(id = R.drawable.baseline_email_24) ,
+//                              contentDescription = null)
+//            },
+//
+//            colors = OutlinedTextFieldDefaults.colors(
+//                unfocusedContainerColor = Color(0xFFC6D2EE),
+//                unfocusedBorderColor = Color(0xFFEDF0F7),
+//            ),
+//            value = "",
+//            onValueChange = {
+//
+//            },
+//            label = {
+//                Text(text = "Email", fontWeight = FontWeight.Bold)
+//            }
+//            )
+//        OutlinedTextField(
+//            modifier = Modifier.fillMaxWidth(),
+//            leadingIcon = {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.baseline_lock_24),
+//                    contentDescription = null)
+//            },
+//            trailingIcon = {
+//                           Icon(
+//                               painter = painterResource(id = R.drawable.baseline_visibility_off_24),
+//                               contentDescription =null )
+//            },
+//            colors = OutlinedTextFieldDefaults.colors(
+//                unfocusedContainerColor = Color(0xFFC6D2EE),
+//                unfocusedBorderColor = Color(0xFFEDF0F7),
+//            ),
+//            value = "",
+//            onValueChange = {
+//
+//            },
+//            label = {
+//                Text(text = "Mot de passe",fontWeight = FontWeight.Bold)
+//            }
+ //       )
+        Spacer(modifier = Modifier.height(20.dp))
+
         Button(
             modifier = Modifier
                 .fillMaxWidth()
@@ -126,16 +218,31 @@ fun Forms(){
                 contentColor = Color.White,
             ),
             shape = RoundedCornerShape(5.dp),
-            onClick = { /*TODO*/ }
+            onClick = {
+                signupViewModel.sendVerificationCode(fullPhoneNumber, context as Activity)
+                phone = if (isNumberValid){
+                    "Numero valide"
+                } else{
+                    "numero invalid"
+                }
+                if (signupViewModel.complete.value){
+                    navController.navigate("codeOtp")
+                }
+            }
         ) {
-            Text(text = "Connexion", fontWeight = FontWeight.Bold, fontFamily = poppins)
+            Text(
+                text = "Connexion",
+                fontWeight = FontWeight.Bold,
+                fontFamily = arial,
+                fontSize = 20.sp
+            )
             
         }
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = "Mot de passe oublié ?",
             color = Orange,
-            fontFamily = amaranth,
+            fontFamily = arial,
             textAlign = TextAlign.End
         )
         Row (
@@ -188,7 +295,7 @@ fun Forms(){
                     Text(
                         modifier = Modifier,
                         text = "Se Connecter avec Google",
-                        fontFamily = poppins
+                        fontFamily = arial
                     )
                 }
 
@@ -221,13 +328,20 @@ fun Forms(){
                         text = "Se Connecter avec Facebook",
                         textAlign = TextAlign.Center,
                         color = Color.Black,
-                        fontFamily = poppins
+                        fontFamily = arial
                     )
                 }
 
             }
         }
-        Text(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), textAlign = TextAlign.Center, text = inscription)
+        Spacer(modifier = Modifier.height(25.dp))
+
+        Text(modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp)
+            .clickable {
+                navController.navigate("Inscription")
+            }, textAlign = TextAlign.Center, text = inscription)
     }
 
 }

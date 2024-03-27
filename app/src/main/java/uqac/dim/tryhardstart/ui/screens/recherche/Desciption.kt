@@ -9,13 +9,19 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
+import uqac.dim.tryhardstart.ui.theme.amaranth
+import uqac.dim.tryhardstart.ui.theme.arial
 import uqac.dim.tryhardstart.ui.theme.poppins
+import uqac.dim.tryhardstart.viewmodel.BusinessAccountViewModel
 
 @Composable
-fun Desciption(){
+fun Desciption(businessAccountViewModel: BusinessAccountViewModel){
 
     Column {
-        Text(text = "Bonjour Bravo,", color = Color.White)
-        Text(text = "Reservez Votre Ticket", color = Color.White, fontSize = 30.sp, fontWeight = FontWeight.Bold, fontFamily = poppins)
+        Text(text = "Bonjour Bravo,", color = Color.White, fontFamily = arial)
+
+        Text(
+            text =if ((businessAccountViewModel.modeUser.value)) "Reservez Votre Ticket" else "Démarrer l'exploitation d'un bus",
+            color = Color.White, fontSize = 30.sp, fontWeight = FontWeight.Bold, fontFamily = amaranth)
     }
 }

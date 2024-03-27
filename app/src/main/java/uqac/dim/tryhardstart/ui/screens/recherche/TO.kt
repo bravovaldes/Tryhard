@@ -27,10 +27,11 @@ import androidx.compose.ui.unit.sp
 import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
+import uqac.dim.tryhardstart.viewmodel.BusinessAccountViewModel
 
 @Composable
 
-fun To(){
+fun To(businessAccountViewModel: BusinessAccountViewModel){
         Column(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -47,13 +48,13 @@ fun To(){
                 )
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(5.dp),
+                    modifier = Modifier.fillMaxWidth().padding(if(businessAccountViewModel.modeUser.value)5.dp else 2.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(20.dp)
 
                 ) {
                     Card(
-                        modifier = Modifier.size(60.dp),
+                        modifier = Modifier.size(if(businessAccountViewModel.modeUser.value)60.dp else 50.dp),
                         colors = CardDefaults.cardColors(
                             containerColor = Green.copy(0.13f)
                         )

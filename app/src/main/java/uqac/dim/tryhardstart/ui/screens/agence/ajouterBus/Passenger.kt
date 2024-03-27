@@ -1,10 +1,9 @@
-package uqac.dim.tryhardstart.ui.screens.recherche
+package uqac.dim.tryhardstart.ui.screens.agence.ajouterBus
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,17 +21,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Orange
-import uqac.dim.tryhardstart.ui.theme.poppins
 
 @Composable
-
 fun Passenger(){
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.spacedBy(27.dp)
     ) {
         Card(
-            modifier = Modifier.size(60.dp),
+            modifier = Modifier.size(50.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Orange.copy(0.13f)
             )
@@ -42,33 +39,28 @@ fun Passenger(){
                     painter = painterResource(id = R.drawable.baseline_hail_24),
                     contentDescription =null ,
                     tint = Orange
-                    )
+                )
             }
 
         }
         Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "PASSAGER",fontWeight = FontWeight.ExtraBold, color = Color.LightGray)
             Row(
                 horizontalArrangement = Arrangement.spacedBy(17.dp)
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_remove_circle_outline_24) ,
-                    contentDescription =null, tint = Orange.copy(0.7f) )
-                Text(text = "02",fontWeight = FontWeight.ExtraBold)
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_add_circle_24) ,
-                    contentDescription =null,
-                    tint = Orange
-                    )
+
+                Text(text = "30",fontWeight = FontWeight.ExtraBold)
+
             }
         }
         Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier.padding(start = 18.dp),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
 
-        ) {
+            ) {
             Text(text = "TYPE",fontWeight = FontWeight.Bold, color = Color.LightGray)
             Row {
                 Text(text = "CLASSIQUE", fontWeight = FontWeight.ExtraBold)

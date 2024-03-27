@@ -10,10 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import uqac.dim.tryhardstart.viewmodel.BusinessAccountViewModel
 
 @Composable
 
-fun Personnalisation(){
+fun Personnalisation(businessAccountViewModel: BusinessAccountViewModel){
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -29,7 +30,7 @@ fun Personnalisation(){
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ){
             Passenger()
-            Date()
+            Date(businessAccountViewModel)
             ButtonSearch()
 
         }

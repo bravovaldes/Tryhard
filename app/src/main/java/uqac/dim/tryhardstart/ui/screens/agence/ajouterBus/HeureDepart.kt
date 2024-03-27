@@ -1,4 +1,4 @@
-package uqac.dim.tryhardstart.ui.screens.recherche
+package uqac.dim.tryhardstart.ui.screens.agence.ajouterBus
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,36 +22,33 @@ import androidx.compose.ui.unit.sp
 import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
-import uqac.dim.tryhardstart.ui.theme.alatsi
-import uqac.dim.tryhardstart.ui.theme.amaranth
 import uqac.dim.tryhardstart.ui.theme.poppins
-import uqac.dim.tryhardstart.viewmodel.BusinessAccountViewModel
 
 @Composable
-fun Date(businessAccountViewModel: BusinessAccountViewModel){
+fun HeureDepart(){
     Row (
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(24.dp),
         verticalAlignment = Alignment.CenterVertically
     ){
         Card(
-            modifier = Modifier.size(if (businessAccountViewModel.modeUser.value)60.dp else 50.dp),
+            modifier = Modifier.size(50.dp),
             colors = CardDefaults.cardColors(
-                containerColor = Green.copy(0.13f)
+                containerColor = Orange.copy(0.13f)
             )
         ) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_date_range_24),
+                    painter = painterResource(id = R.drawable.baseline_access_time_24),
                     contentDescription =null ,
-                    tint = Green
+                    tint = Orange
                 )
             }
 
         }
         Column {
-            Text(text = "DEPART", fontWeight = FontWeight.Bold, color = Color.LightGray)
-            Text(text = "Jeu 11 Mars 2024 ", fontFamily = poppins, fontWeight = FontWeight.Bold, fontSize = 17.sp,)
+            Text(text = "Heure Depart", fontWeight = FontWeight.Bold, color = Color.LightGray)
+            Text(text = "12:30 PM ", fontFamily = poppins, fontWeight = FontWeight.Bold, fontSize = 17.sp,)
         }
 
     }

@@ -22,6 +22,9 @@ val aptos = FontFamily(
 val roboto = FontFamily(
     Font(R.font.roboto)
 )
+val arial = FontFamily(
+    Font(R.font.arial)
+)
 val poppins = FontFamily(
     Font(R.font.poppins),
     Font(R.font.poppins_bold, FontWeight.Bold)
