@@ -1,5 +1,6 @@
 package uqac.dim.tryhardstart.ui.screens.recherche
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,23 +41,27 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.navigation.NavController
 import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.screens.agence.ajouterBus.Envoyer
 import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.amaranth
 import uqac.dim.tryhardstart.ui.theme.poppins
+import uqac.dim.tryhardstart.viewmodel.AdminViewModel
 import uqac.dim.tryhardstart.viewmodel.BusinessAccountViewModel
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Recherche(businessAccountViewModel: BusinessAccountViewModel){
+fun Recherche(navController: NavController,businessAccountViewModel: BusinessAccountViewModel,rechercheViewModel: RechercheViewModel,adminViewModel: AdminViewModel){
   LaunchedEffect(Unit){
       businessAccountViewModel.verificationSuccess()
   }
     LazyColumn(
         modifier = Modifier.fillMaxSize(1f)
     ) {
+        Log.d("voir",businessAccountViewModel.compteBusinessVerify.value.toString())
         item {
             Column(
                 modifier = Modifier
@@ -89,9 +94,9 @@ fun Recherche(businessAccountViewModel: BusinessAccountViewModel){
                             //.fillMaxSize()
                             .offset(y = if (businessAccountViewModel.modeUser.value) (-45).dp else (-83).dp)
                     ) {
-                        From(businessAccountViewModel)
+                        From(businessAccountViewModel,rechercheViewModel,adminViewModel)
                         Spacer(modifier = Modifier.height(5.dp))
-                        To(businessAccountViewModel)
+                        To(businessAccountViewModel,rechercheViewModel,adminViewModel)
 
                     }
                     Card(
@@ -102,10 +107,10 @@ fun Recherche(businessAccountViewModel: BusinessAccountViewModel){
                                 end = 45.dp,
                                 top = if (businessAccountViewModel.modeUser.value) 30.dp else 0.dp
                             )
-                            .offset(y = if (businessAccountViewModel.modeUser.value) 0.dp else (-14).dp)
+                            .offset(y = if (businessAccountViewModel.modeUser.value) 5.dp else (-14).dp)
                             .size(40.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Orange.copy(0.7f)
+                            containerColor = Green
                         )
 
                     ) {
@@ -130,10 +135,10 @@ fun Recherche(businessAccountViewModel: BusinessAccountViewModel){
                         .offset(y = if (businessAccountViewModel.modeUser.value) (-45).dp else (-80).dp)
                 ) {
                     if ((businessAccountViewModel.modeUser.value)){
-                        Personnalisation(businessAccountViewModel)
+                        Personnalisation(navController,businessAccountViewModel, rechercheViewModel,adminViewModel )
                     }
                     else{
-                        Envoyer(businessAccountViewModel)
+                        Envoyer(businessAccountViewModel,adminViewModel,rechercheViewModel)
                     }
 
                 }

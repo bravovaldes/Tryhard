@@ -1,5 +1,6 @@
 package uqac.dim.tryhardstart.ui.screens.trajet
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,18 +28,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.amaranth
 import uqac.dim.tryhardstart.ui.theme.poppins
+import uqac.dim.tryhardstart.viewmodel.AdminViewModel
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
+import uqac.dim.tryhardstart.viewmodel.Trajet
 
 @Composable
-fun CadreFinal(){
+fun CadreFinal(trajet: Trajet,navController: NavController,rechercheViewModel: RechercheViewModel,adminViewModel: AdminViewModel){
     var expanded by remember {
         mutableStateOf(false)
     }
     Row {
         Column(
             modifier = Modifier
+                .padding(bottom = 0.dp)
                 .offset(x = 30.dp, y = 25.dp)
                 .fillMaxWidth(0.60f)
         ) {
@@ -51,7 +57,8 @@ fun CadreFinal(){
             )
             Column(
             ) {
-                Depart()
+                Depart(trajet)
+                Log.d("idBus",trajet.idBus)
                 Row {
                     Canvas(modifier = Modifier
                         .height(30.dp)
@@ -82,7 +89,7 @@ fun CadreFinal(){
                 }
 
                 Arrive(onUpdate ={newvalue->
-                    expanded=newvalue} )
+                    expanded=newvalue} ,trajet)
 
             }
         }
@@ -92,8 +99,15 @@ fun CadreFinal(){
                 .height(150.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "7:30 PM", fontSize = 25.sp, fontWeight = FontWeight.Bold)
-            Button(onClick = { /*TODO*/ },
+            Text(text = trajet.heureDepart, fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            Button(onClick = {
+                rechercheViewModel.currentBusId.value = trajet.idBus
+                adminViewModel.currentBusId.value = trajet.idBus
+                rechercheViewModel.initSeatGauche()
+                rechercheViewModel.initSeat()
+
+                             navController.navigate("place")
+            },
                 colors = ButtonDefaults.
                 buttonColors(containerColor = Orange),
                 shape = RoundedCornerShape(8.dp)
@@ -107,12 +121,18 @@ fun CadreFinal(){
                 Column {
                     Row(
                     ) {
-                        Text( text = "5500F", textDecoration = TextDecoration.LineThrough,)
-                        Text(modifier = Modifier
-                            .graphicsLayer { rotationZ = -30f }
-                            .offset(x = 6.dp, y = (-5).dp),text = "-25%", fontWeight = FontWeight.Bold, color = Color.Red, fontSize = 10.sp,)
+                        Text( text = trajet.prix+"F", color = if(trajet.promotion) Color.Black else Color.Red,textDecoration = if (trajet.promotion) TextDecoration.LineThrough else TextDecoration.None,)
+                        if (trajet.promotion){
+                            Text(modifier = Modifier
+                                .graphicsLayer { rotationZ = -30f }
+                                .offset(x = 6.dp, y = (-5).dp),text = "-25%", fontWeight = FontWeight.Bold, color = Color.Red, fontSize = 10.sp,)
+                        }
+
                     }
-                    Text(text = "5000F", fontWeight = FontWeight.Bold, color = Color.Red)
+                    if (trajet.promotion){
+                        Text(text = ((trajet.prix.toInt())*0.75).toString()+"F", fontWeight = FontWeight.Bold, color = Color.Red)
+
+                    }
 
                 }
 

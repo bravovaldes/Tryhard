@@ -1,7 +1,9 @@
 package uqac.dim.tryhardstart.ui.screens.place
 
 import android.content.ClipData.Item
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +28,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,9 +41,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
+import uqac.dim.tryhardstart.viewmodel.Trajet
 
 @Composable
-fun NumeroPlace(){
+fun NumeroPlace(rechercheViewModel: RechercheViewModel){
+
+    var numeroPlace1 = mutableStateOf("")
+    LaunchedEffect(Unit){
+        //rechercheViewModel.initSeat()
+        //rechercheViewModel.initSeatGauche()
+    }
     val items1 = listOf(
         "A1", "A2",
         "B1", "B2",
@@ -63,6 +79,7 @@ fun NumeroPlace(){
         "H3", "H4",
         "I3", "I4"
     )
+    Log.d("id",rechercheViewModel.currentBusId.value)
     Row(
     ) {
         LazyVerticalGrid(
@@ -74,17 +91,24 @@ fun NumeroPlace(){
                 .width(130.dp)
                 .offset((-20).dp)
         ){
-            items(items1){
+            items(rechercheViewModel.seats1){
                 item ->
                 Card(
-                    backgroundColor = if(item=="A1") Orange else if(item=="D2") Green else if(item=="B2") Green else Color.White,
+                    backgroundColor = if(item.reserved) Green else Color.White,
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier
                         .width(50.dp)
                         .height(50.dp)
+                        .clickable {
+                            rechercheViewModel.numeroChaise1.value = item.numeroChaise
+                            numeroPlace1.value = item.numeroChaise
+                        }
                 ) {
+                    Log.d("numero1",rechercheViewModel.numeroChaise1.value)
+                    Log.d("numero11",numeroPlace1.value)
+
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                        Text(text = item, textAlign = TextAlign.Center)
+                        Text(text = item.numeroChaise, textAlign = TextAlign.Center)
                     }
                 }
             }
@@ -98,21 +122,29 @@ fun NumeroPlace(){
                 .width(130.dp)
                 .offset((20).dp)
         ){
-            items(items2){
+            items(rechercheViewModel.seats){
                 item ->
                 Card(
-                    backgroundColor = if(item=="B4") Green else if(item=="C3") Orange else Color.White,
+                    backgroundColor = if(item.reserved) Green else if(item.numeroChaise=="C3") Orange else Color.White,
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier
                         .width(50.dp)
                         .height(50.dp)
+                        .clickable {
+                            rechercheViewModel.numeroChaise.value = item.numeroChaise
+                        }
                 ) {
+                    Log.d("numero",rechercheViewModel.numeroChaise.value)
+
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                        Text(text = item, textAlign = TextAlign.Center)
+                        Text(text = item.numeroChaise, textAlign = TextAlign.Center)
                     }
                 }
+                Log.d("reserve",item.reserved.toString())
+                Log.d("place",item.numeroChaise)
 
             }
+            Log.d("objet",rechercheViewModel.seats.toString())
         }
     }
 

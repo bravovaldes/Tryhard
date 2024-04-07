@@ -21,9 +21,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Orange
+import uqac.dim.tryhardstart.viewmodel.AdminViewModel
 
 @Composable
-fun Passenger(){
+fun Passenger(adminViewModel: AdminViewModel){
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(27.dp)

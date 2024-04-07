@@ -79,4 +79,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation("com.github.jump-sdk:jetpack_compose_country_code_picker_emoji:2.2.8")
+    implementation("com.github.JoelKanyi:HorizontalCalendarView:1.0.4")
+    implementation("com.github.nanihadesuka:LazyColumnScrollbar:1.10.0")
+implementation("io.github.ahmednader65:ComposeSingleRowCalender:1.0.1")
 }

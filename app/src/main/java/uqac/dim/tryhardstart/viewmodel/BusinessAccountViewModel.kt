@@ -23,7 +23,7 @@ class BusinessAccountViewModel:ViewModel(){
     val adresseSiegeSocial = MutableStateFlow("")
     private val _compteBusinessVerify = MutableStateFlow(false)
     val compteBusinessVerify: StateFlow<Boolean> = _compteBusinessVerify
-    private fun setCompteBusinessVerify(value: Boolean) {
+    fun setCompteBusinessVerify(value: Boolean) {
         _compteBusinessVerify.value = value
     }
     //Etats pour la gestion de L'UI
@@ -62,22 +62,23 @@ class BusinessAccountViewModel:ViewModel(){
     }
 
     fun verificationSuccess(){
-
-        db.collection("comptes_business").document(userId.toString())
-            .get()
-            .addOnSuccessListener {
-                document ->
-                if (document!= null && document.exists()){
-                    val businessComplete = document.getBoolean("inscription_complete")?:false
-                    setCompteBusinessVerify(businessComplete)
+            db.collection("comptes_business").document(userId.toString())
+                .get()
+                .addOnSuccessListener {
+                        document ->
+                    if (document!= null && document.exists()){
+                        val businessComplete = document.getBoolean("inscription_complete")?:false
+                        setCompteBusinessVerify(businessComplete)
+                    }
+                    else {
+                        setCompteBusinessVerify(false)
+                        // Le document n'existe pas, l'utilisateur doit s'inscrire
+                    }
                 }
-            else {
-            // Le document n'existe pas, l'utilisateur doit s'inscrire
-              }
-            }
-            .addOnFailureListener { e ->
-                // Gérer l'erreur
-            }
+                .addOnFailureListener { e ->
+                    // Gérer l'erreur
+                }
+
 
     }
 }

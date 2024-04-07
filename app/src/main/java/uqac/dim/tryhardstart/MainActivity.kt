@@ -32,8 +32,11 @@ import uqac.dim.tryhardstart.ui.screens.recherche.Recherche
 import uqac.dim.tryhardstart.ui.screens.trajet.Trajet
 import uqac.dim.tryhardstart.ui.screens.user.User
 import uqac.dim.tryhardstart.ui.theme.TryHardStartTheme
+import uqac.dim.tryhardstart.viewmodel.AdminViewModel
 import uqac.dim.tryhardstart.viewmodel.BusinessAccountViewModel
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 import uqac.dim.tryhardstart.viewmodel.SignupViewModel
+import uqac.dim.tryhardstart.viewmodel.Trajet
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -50,7 +53,9 @@ class MainActivity : ComponentActivity() {
                     val authState = remember { mutableStateOf(FirebaseAuth.getInstance().currentUser) }
                     val navController = rememberNavController()
                     val signupViewModel: SignupViewModel = viewModel()
+                    val rechercheViewModel:RechercheViewModel = viewModel()
                     val businessAccountViewModel:BusinessAccountViewModel = viewModel()
+                    val adminViewModel:AdminViewModel = viewModel()
                     val showBottomNav by signupViewModel.showbottomNav.collectAsState()
                     fun setStatusBarColor(colorString: String) {
                         window.statusBarColor = android.graphics.Color.parseColor(colorString)
@@ -71,7 +76,7 @@ class MainActivity : ComponentActivity() {
                             }
                             composable("codeOtp") { PageOtp(navController,signupViewModel,businessAccountViewModel) }
                             composable("Accueil") {
-                                Recherche(businessAccountViewModel)
+                                Recherche(navController,businessAccountViewModel,rechercheViewModel,adminViewModel)
                                 signupViewModel.setShowBottomNav(false)
                                 setStatusBarColor("#1BAF1B")
 
@@ -87,6 +92,14 @@ class MainActivity : ComponentActivity() {
                             }
                             composable("AjouterAgence"){
                                 AjouterAgence(navController,businessAccountViewModel)
+                            }
+                            composable("Trajet"){
+                                Trajet(rechercheViewModel,navController,adminViewModel)
+                            }
+                            composable("place"){
+                                Place(rechercheViewModel)
+                                signupViewModel.setShowBottomNav(true)
+
                             }
 
                         }

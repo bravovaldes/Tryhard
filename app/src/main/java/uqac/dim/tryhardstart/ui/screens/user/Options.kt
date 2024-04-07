@@ -58,53 +58,6 @@ import uqac.dim.tryhardstart.viewmodel.SignupViewModel
 @Composable
 fun Options(navController: NavController,signupViewModel: SignupViewModel,businessAccountViewModel: BusinessAccountViewModel){
     val verify by businessAccountViewModel.compteBusinessVerify.collectAsState()
-
-    val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf(options[0]) }
-
-    val shape = if (expanded) RoundedCornerShape(8.dp).copy(bottomEnd = CornerSize(0.dp), bottomStart = CornerSize(0.dp))
-    else RoundedCornerShape(8.dp)
-
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = !expanded },
-    ) {
-
-        TextField(
-            modifier = Modifier.menuAnchor(),
-            textStyle = TextStyle.Default.copy(
-                fontSize = 14.sp,
-                fontWeight=  FontWeight.Light),
-            readOnly = true,
-            value = selectedOptionText,
-            onValueChange = {},
-            label = { Text("Unit of length", fontWeight = FontWeight.Bold, ) },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            shape = shape,
-            colors = ExposedDropdownMenuDefaults.textFieldColors(
-                focusedIndicatorColor = Transparent,
-                unfocusedIndicatorColor = Transparent
-            )
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-        ) {
-            options.forEach { selectionOption ->
-                DropdownMenuItem(
-                    text = { Text(selectionOption) },
-                    onClick = {
-                        selectedOptionText = selectionOption
-                        expanded = false
-                    },
-                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                )
-            }
-        }
-    }
-
-
     Column(
         modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.spacedBy(20.dp)
@@ -121,6 +74,7 @@ fun Options(navController: NavController,signupViewModel: SignupViewModel,busine
                             popUpTo(0) { inclusive = true }
                         }
                     }
+                    businessAccountViewModel.setCompteBusinessVerify(false)
                     signupViewModel.signOutUser(navController)
 
                 }
@@ -148,7 +102,7 @@ fun Options(navController: NavController,signupViewModel: SignupViewModel,busine
                 contentDescription = null
             )
         }
-        if (!(businessAccountViewModel.compteBusinessVerify.value)){
+        if (!businessAccountViewModel.compteBusinessVerify.value){
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

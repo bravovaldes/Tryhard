@@ -1,6 +1,8 @@
 package uqac.dim.tryhardstart.ui.screens.trajet
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,9 +21,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import uqac.dim.tryhardstart.viewmodel.AdminViewModel
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
+import uqac.dim.tryhardstart.viewmodel.Trajet
 
 @Composable
-fun Cadre(){
+fun Cadre(trajet: Trajet,rechercheViewModel: RechercheViewModel,adminViewModel: AdminViewModel){
 
 
     val configuration = LocalConfiguration.current
@@ -36,8 +41,13 @@ fun Cadre(){
         modifier = Modifier
             .fillMaxWidth()
             .padding(paddingModifier)
-            .height(170.dp)
+            .height(175.dp)
+            .clickable {
+                rechercheViewModel.currentBusId.value = trajet.idBus
+                adminViewModel.currentBusId.value = trajet.idBus
+            }
     ) {
+        Log.d("cadreId",rechercheViewModel.currentBusId.value)
         Canvas(modifier = Modifier.fillMaxSize()) {
             val canvasWidth = size.width
             val canvasHeight = size.height

@@ -22,11 +22,11 @@ import androidx.compose.ui.unit.sp
 import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.amaranth
-import uqac.dim.tryhardstart.ui.theme.monsterart
-import uqac.dim.tryhardstart.ui.theme.poppins
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
+import uqac.dim.tryhardstart.viewmodel.Trajet
 
 @Composable
-fun Entete(){
+fun Entete(rechercheViewModel: RechercheViewModel, trajet: List<Trajet>){
 
     Column (
         modifier = Modifier
@@ -55,9 +55,9 @@ fun Entete(){
              horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Douala", fontSize = 25.sp, color = Color.White,fontWeight = FontWeight.Bold, fontFamily = amaranth)
+            Text(text = rechercheViewModel.villeDepart.value, fontSize = 25.sp, color = Color.White,fontWeight = FontWeight.Bold, fontFamily = amaranth)
             Icon(painter = painterResource(id = R.drawable.baseline_swap_horiz_24), modifier = Modifier.size(30.dp), contentDescription = null, tint = Color.White)
-            Text(text = "Yaounde", fontSize = 25.sp, fontWeight = FontWeight.Bold, fontFamily = amaranth, color = Color.White)
+            Text(text = rechercheViewModel.villeArrivee.value, fontSize = 25.sp, fontWeight = FontWeight.Bold, fontFamily = amaranth, color = Color.White)
         }
 
     }

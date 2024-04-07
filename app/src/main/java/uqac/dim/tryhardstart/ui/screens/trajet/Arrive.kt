@@ -32,9 +32,10 @@ import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.amaranth
 import uqac.dim.tryhardstart.ui.theme.poppins
+import uqac.dim.tryhardstart.viewmodel.Trajet
 
 @Composable
-fun Arrive(onUpdate:(Boolean)->Unit){
+fun Arrive(onUpdate:(Boolean)->Unit,trajet: Trajet){
     var toggle by remember {
         mutableStateOf(false)
     }
@@ -64,7 +65,7 @@ fun Arrive(onUpdate:(Boolean)->Unit){
             Row {
 
                 Text(
-                    text = "Dschang",
+                    text = trajet.villeArrive,
                     color = Green,
                     fontFamily = poppins,
                     fontWeight = FontWeight.Bold,
@@ -76,7 +77,7 @@ fun Arrive(onUpdate:(Boolean)->Unit){
                     tint = Green,
                     modifier = Modifier.clickable { onUpdate(!toggle); toggle =!toggle  })
             }
-            Text(text = "Jeu 11 Mars 2024 ", fontFamily = amaranth,color = Color.LightGray , fontSize = if (screenWidth<400) 12.sp else 15.sp)
+            Text(text =trajet.dateDepart, fontFamily = amaranth,color = Color.LightGray , fontSize = if (screenWidth<400) 12.sp else 15.sp)
         }
 
     }

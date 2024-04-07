@@ -25,9 +25,10 @@ import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.amaranth
 import uqac.dim.tryhardstart.ui.theme.poppins
+import uqac.dim.tryhardstart.viewmodel.Trajet
 
 @Composable
-fun Depart(){
+fun Depart(trajet: Trajet){
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp
     Row (
@@ -51,8 +52,8 @@ fun Depart(){
 
         }
         Column {
-            Text(text = "Biyem Assi", color = Orange,fontFamily = poppins, fontWeight = FontWeight.Bold, fontSize = if (screenWidth>400) 15.sp else 13.sp)
-            Text(text = "Jeu 11 Mars 2024 ",fontFamily = amaranth,color = Color.LightGray ,fontSize = if (screenWidth<400) 12.sp else 15.sp)
+            Text(text = trajet.villeDepart, color = Orange,fontFamily = poppins, fontWeight = FontWeight.Bold, fontSize = if (screenWidth>400) 15.sp else 13.sp)
+            Text(text = trajet.dateDepart,fontFamily = amaranth,color = Color.LightGray ,fontSize = if (screenWidth<400) 12.sp else 15.sp)
         }
 
     }

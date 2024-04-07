@@ -1,13 +1,16 @@
 package uqac.dim.tryhardstart.ui.screens.agence.ajouterBus
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Card
@@ -31,53 +34,62 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import uqac.dim.tryhardstart.R
+import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
+import uqac.dim.tryhardstart.viewmodel.AdminViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Matricule(){
-    val options = listOf("Option 1", "Option 2", "Option 3")
-    var expanded by remember { mutableStateOf(false) }
-    var selectedIndex by remember { mutableStateOf(0) }
+fun Matricule(adminViewModel: AdminViewModel){
+    var matricule by remember {mutableStateOf("")}
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = {
-                expanded = !expanded
-            }
-        ) {
-            OutlinedTextField(
-                readOnly = true,
-                value = options[selectedIndex],
-                onValueChange = { },
-                label = { Text("Select an option") },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = expanded
-                    )
-                },
-                colors = ExposedDropdownMenuDefaults.textFieldColors()
+    ) {
+        Card(
+            modifier = Modifier.size(50.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Orange.copy(0.13f)
             )
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = {
-                    expanded = false
-                }
-            ) {
-                options.forEachIndexed { index, option ->
-                    DropdownMenuItem(
-                        text = { Text(option) },
-                        onClick = {
-                            selectedIndex = index
-                            expanded = false
-                        }
-                    )
-                }
+        ) {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                Icon(
+                    modifier = Modifier
+                        .size(30.dp),
+                    painter = painterResource(id = R.drawable.baseline_key_24),
+                    contentDescription = null,
+                    tint = Orange
+                )
             }
+
         }
+        TextField(
+            colors = TextFieldDefaults.colors(
+                unfocusedIndicatorColor = Orange,
+                unfocusedContainerColor = Green.copy(0.4f),
+                focusedIndicatorColor = Orange,
+                focusedContainerColor = Green.copy(0.4f)
+            ),
+            value = matricule,
+            onValueChange ={
+                  matricule = it
+                adminViewModel.matricule.value = it
+            },
+            label = {
+                Text(text = "Entrer le matricule")
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            ),
+        )
+        adminViewModel.matricule.value = matricule
     }
 
 }

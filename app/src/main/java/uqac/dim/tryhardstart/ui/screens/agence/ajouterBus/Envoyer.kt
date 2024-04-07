@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,14 +22,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import uqac.dim.tryhardstart.ui.screens.recherche.Date
+import uqac.dim.tryhardstart.ui.theme.Green
+import uqac.dim.tryhardstart.viewmodel.AdminViewModel
 import uqac.dim.tryhardstart.viewmodel.BusinessAccountViewModel
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 
 
 @Composable
-fun Envoyer(businessAccountViewModel: BusinessAccountViewModel){
+fun Envoyer(businessAccountViewModel: BusinessAccountViewModel,adminViewModel: AdminViewModel,rechercheViewModel: RechercheViewModel){
     Card(
         modifier = Modifier
-            .height(405.dp)
+            //.height(405.dp)
             //.padding(bottom = 0.dp)
         ,
         colors = CardDefaults.cardColors(
@@ -46,18 +51,24 @@ fun Envoyer(businessAccountViewModel: BusinessAccountViewModel){
            // horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy( if(businessAccountViewModel.modeUser.value)20.dp else 8.dp)
         ){
-            Passenger()
-            Date(businessAccountViewModel)
-            HeureDepart()
-            HeureArrive()
-            //Matricule()
-            Button(onClick = { /*TODO*/ }) {
-                Column {
+            Passenger(adminViewModel)
+            Date(businessAccountViewModel,adminViewModel, rechercheViewModel )
+            HeureDepart(adminViewModel)
+            HeureArrive(adminViewModel)
+            Matricule(adminViewModel)
+            Formulaire(adminViewModel)
+            Button(
+                onClick = {
+                          adminViewModel.saveDataToFirestore()
+                },
+                shape = RoundedCornerShape(5.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Green
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 3.dp)) {
                     Text(text = "Enregistrer")
-
-                }
-
-
             }
 
             

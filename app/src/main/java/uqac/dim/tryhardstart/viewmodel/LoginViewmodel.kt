@@ -220,6 +220,8 @@ class SignupViewModel(): ViewModel(){
     }
 
     fun signOutUser(navController: NavController){
+        setCompleVerify(false)
+        setComplete(false)
         FirebaseAuth.getInstance().signOut()
         navController.navigate("Login") {
             popUpTo(0)

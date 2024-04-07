@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,7 +19,7 @@ import uqac.dim.tryhardstart.viewmodel.SignupViewModel
 fun User(navController: NavController,signupViewModel: SignupViewModel,businessAccountViewModel: BusinessAccountViewModel){
     Column {
         Profile()
-        Divider(
+        HorizontalDivider(
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
             thickness = 2.dp
         )

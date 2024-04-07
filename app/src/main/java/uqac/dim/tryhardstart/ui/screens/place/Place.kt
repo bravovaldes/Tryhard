@@ -1,5 +1,6 @@
 package uqac.dim.tryhardstart.ui.screens.place
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,6 +23,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -46,10 +48,16 @@ import uqac.dim.tryhardstart.ui.theme.amaranth
 import uqac.dim.tryhardstart.ui.theme.monsterart
 import uqac.dim.tryhardstart.ui.theme.poppins
 import uqac.dim.tryhardstart.ui.theme.roboto
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
+import uqac.dim.tryhardstart.viewmodel.Trajet
 
 
 @Composable
-fun Place(){
+fun Place(rechercheViewModel: RechercheViewModel){
+    LaunchedEffect(true){
+        rechercheViewModel.updateSeatStatus()
+        rechercheViewModel.updateSeatStatusGauche()
+    }
     Column {
         Box {
             EntetePlace()
@@ -167,10 +175,13 @@ fun Place(){
                     .offset(y = 30.dp)
                     //.padding(top = 40.dp)
             ){
-                NumeroPlace()
+                NumeroPlace(rechercheViewModel )
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    rechercheViewModel.updateSeatStatus()
+                    rechercheViewModel.updateSeatStatusGauche()
+                },
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Orange
@@ -183,6 +194,8 @@ fun Place(){
             ) {
                 Text(text = "Payer Maintenant", fontFamily = amaranth)
             }
+            Log.d("idvaleur",rechercheViewModel.numeroChaise.value)
+            Log.d("idpremier",rechercheViewModel.currentBusId.value)
         }
     }
 

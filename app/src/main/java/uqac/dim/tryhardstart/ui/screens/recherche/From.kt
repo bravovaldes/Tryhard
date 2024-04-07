@@ -42,17 +42,21 @@ import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.arial
+import uqac.dim.tryhardstart.viewmodel.AdminViewModel
 import uqac.dim.tryhardstart.viewmodel.BusinessAccountViewModel
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 
-fun From(businessAccountViewModel: BusinessAccountViewModel){
+fun From(businessAccountViewModel: BusinessAccountViewModel,rechercheViewModel: RechercheViewModel,adminViewModel: AdminViewModel){
     val options = listOf("Chicoutimi", "Montreal", "Toronto", "Douala", "Yaounde")
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(options[0]) }
     val shape = if (expanded) RoundedCornerShape(8.dp).copy(bottomEnd = CornerSize(0.dp), bottomStart = CornerSize(0.dp))
     else RoundedCornerShape(8.dp)
+    rechercheViewModel.setVilleDepart(selectedOptionText)
+    adminViewModel.villeDepart.value=selectedOptionText
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -98,7 +102,7 @@ fun From(businessAccountViewModel: BusinessAccountViewModel){
                 Column(
                      //modifier = Modifier.padding(vertical = 10.dp)
                 ) {
-                    Text(text = "DEPART", modifier = Modifier.padding(start = 10.dp))
+                    Text(text = "DEPART", modifier = Modifier.padding(start = 10.dp), color = Orange)
                     ExposedDropdownMenuBox(
                         modifier = Modifier.background(Color.White),
                         expanded = expanded,
@@ -108,24 +112,28 @@ fun From(businessAccountViewModel: BusinessAccountViewModel){
                         TextField(
                             modifier = Modifier.menuAnchor(),
                             textStyle = TextStyle.Default.copy(
-                                fontSize = 20.sp,
+                                fontSize = 18.sp,
                                 fontFamily = arial,
                                 fontWeight=  FontWeight.Bold),
                             readOnly = true,
                             value = selectedOptionText,
-                            onValueChange = {},
+                            onValueChange = {
+                                adminViewModel.villeDepart.value=selectedOptionText
+                            },
                             //label = { Text("DEPART", fontSize = 16.sp, fontWeight = FontWeight.Bold, ) },
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                             shape = shape,
                             colors = ExposedDropdownMenuDefaults.textFieldColors(
-                                focusedContainerColor = Orange,
-                                unfocusedContainerColor = Orange,
-                                focusedIndicatorColor = Green,
-                                unfocusedIndicatorColor =Green
+                                focusedTextColor = Color.Black,
+                                unfocusedTextColor = Color.Black,
+                                focusedContainerColor = Color.White,
+                                unfocusedContainerColor = Color.White,
+                                focusedIndicatorColor = Orange,
+                                unfocusedIndicatorColor = Color.White
                             )
                         )
                         ExposedDropdownMenu(
-                            modifier = Modifier.zIndex(0f).background(Orange),
+                            modifier = Modifier.zIndex(0f).background(Color.White),
                             expanded = expanded,
                             onDismissRequest = { expanded = false },
                         ) {
@@ -143,7 +151,7 @@ fun From(businessAccountViewModel: BusinessAccountViewModel){
                                     text = { Text(
                                         selectionOption,
 
-                                        color = Color.White,
+                                        color = Color.Black,
                                         fontWeight = FontWeight.Bold,
                                         ) },
                                     onClick = {
