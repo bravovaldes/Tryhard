@@ -54,13 +54,10 @@ import uqac.dim.tryhardstart.viewmodel.Trajet
 
 @Composable
 fun Place(rechercheViewModel: RechercheViewModel){
-    LaunchedEffect(true){
-        rechercheViewModel.updateSeatStatus()
-        rechercheViewModel.updateSeatStatusGauche()
-    }
+
     Column {
         Box {
-            EntetePlace()
+            EntetePlace(rechercheViewModel)
             Card(
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = 10.dp
@@ -98,12 +95,12 @@ fun Place(rechercheViewModel: RechercheViewModel){
                         verticalArrangement = Arrangement.SpaceEvenly,
 
                     ) {
-                        Text(text = "7:30 PM",fontFamily = poppins, fontWeight = FontWeight.Bold)
+                        Text(text = rechercheViewModel.heureDebutTrajet.value,fontFamily = poppins, fontWeight = FontWeight.Bold)
                         Row(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(text = "Price: ")
-                            Text(text = "5000F",fontFamily = amaranth, fontWeight = FontWeight.Bold, color = Color.Black.copy(0.7f))
+                            Text(text = "Prix: ")
+                            Text(text = rechercheViewModel.prixTrajet.value+"F",fontFamily = amaranth, fontWeight = FontWeight.Bold, color = Color.Black.copy(0.7f))
                         }
                     }
                 }
@@ -177,23 +174,26 @@ fun Place(rechercheViewModel: RechercheViewModel){
             ){
                 NumeroPlace(rechercheViewModel )
             }
-            Button(
-                onClick = {
-                    rechercheViewModel.updateSeatStatus()
-                    rechercheViewModel.updateSeatStatusGauche()
-                },
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Orange
-                ),
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .offset(y = -64.dp)
-                    .fillMaxWidth()
-                    .padding(horizontal = 40.dp)
-            ) {
-                Text(text = "Payer Maintenant", fontFamily = amaranth)
+            if (rechercheViewModel.bouttonPayer.value){
+                Button(
+                    onClick = {
+                        rechercheViewModel.updateSeatStatus()
+                        rechercheViewModel.updateSeatStatusGauche()
+                    },
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Orange
+                    ),
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .offset(y = -64.dp)
+                        .fillMaxWidth()
+                        .padding(horizontal = 40.dp)
+                ) {
+                    Text(text = "Payer Maintenant", fontFamily = amaranth)
+                }
             }
+
             Log.d("idvaleur",rechercheViewModel.numeroChaise.value)
             Log.d("idpremier",rechercheViewModel.currentBusId.value)
         }

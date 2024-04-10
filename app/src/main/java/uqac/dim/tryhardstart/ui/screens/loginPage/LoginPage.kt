@@ -8,22 +8,31 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
+import uqac.dim.tryhardstart.ui.theme.poppins
+import uqac.dim.tryhardstart.ui.theme.roboto
 import uqac.dim.tryhardstart.viewmodel.SignupViewModel
 
 @Composable
@@ -55,21 +64,32 @@ fun LoginPage(navController: NavController,signupViewModel: SignupViewModel){
                                 awaitPointerEvent()
                             }
                         }
-                    }
+                    },
+                contentAlignment = Alignment.Center
             ) {
                 Box (
-                    modifier = Modifier.align(Alignment.Center),
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .background(Color.White)
+                    ,
+                    contentAlignment = Alignment.Center
                 ){
-                    Card(
-                        shape = CircleShape,
-                        elevation = 10.dp
+                    Column(
+                        modifier = Modifier.padding(17.dp)
                     ) {
                         CircularProgressIndicator(
+                            modifier = Modifier
+                                .padding(vertical = 10.dp)
+                                .size(40.dp)
+                                .align(Alignment.CenterHorizontally),
                             backgroundColor = Orange,
-
+                            strokeCap = StrokeCap.Square,
                             color = Green
                         )
+                        Text(text = "Nous traitons vos informations", modifier = Modifier.width(250.dp).padding(10.dp), fontFamily = poppins, fontWeight = FontWeight.Bold, fontSize = 22.sp, textAlign = TextAlign.Center)
+                        Text(text = "Cela peut prendre quelques secondes", modifier = Modifier.width(250.dp), textAlign = TextAlign.Center, fontFamily = poppins)
                     }
+
                 }
 
 

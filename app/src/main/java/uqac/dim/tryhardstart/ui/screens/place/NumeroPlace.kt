@@ -93,15 +93,25 @@ fun NumeroPlace(rechercheViewModel: RechercheViewModel){
         ){
             items(rechercheViewModel.seats1){
                 item ->
+                var boutton by remember {
+                    mutableStateOf(false)
+                }
+
                 Card(
-                    backgroundColor = if(item.reserved) Green else Color.White,
+                    backgroundColor = if(item.reserved) Green else if(boutton) Orange else Color.White,
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier
                         .width(50.dp)
                         .height(50.dp)
-                        .clickable {
+                        .clickable(
+                            enabled = !item.reserved
+                        ) {
                             rechercheViewModel.numeroChaise1.value = item.numeroChaise
                             numeroPlace1.value = item.numeroChaise
+                            boutton = !boutton
+                            rechercheViewModel.bouttonPayer.value = boutton
+
+
                         }
                 ) {
                     Log.d("numero1",rechercheViewModel.numeroChaise1.value)
@@ -124,14 +134,22 @@ fun NumeroPlace(rechercheViewModel: RechercheViewModel){
         ){
             items(rechercheViewModel.seats){
                 item ->
+                var boutton by remember {
+                    mutableStateOf(false)
+                }
                 Card(
-                    backgroundColor = if(item.reserved) Green else if(item.numeroChaise=="C3") Orange else Color.White,
+                    backgroundColor = if(item.reserved) Green else if(boutton) Orange else Color.White,
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier
                         .width(50.dp)
                         .height(50.dp)
-                        .clickable {
+                        .clickable(
+                            enabled = !item.reserved
+                        ) {
                             rechercheViewModel.numeroChaise.value = item.numeroChaise
+                            boutton = !boutton
+                            rechercheViewModel.bouttonPayer.value = boutton
+
                         }
                 ) {
                     Log.d("numero",rechercheViewModel.numeroChaise.value)

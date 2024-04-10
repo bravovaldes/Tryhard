@@ -99,7 +99,7 @@ fun Date(businessAccountViewModel: BusinessAccountViewModel,adminViewModel: Admi
         ) {
             //val containerColor = FilledTextFieldTokens.ContainerColor.toColor()
             TextField(
-                textStyle = TextStyle(fontWeight = FontWeight.Bold),
+                textStyle = TextStyle(fontWeight = FontWeight.Bold, fontFamily = poppins),
                 readOnly = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
@@ -113,7 +113,7 @@ fun Date(businessAccountViewModel: BusinessAccountViewModel,adminViewModel: Admi
                                 rechercheViewModel.dateDepart.value = selectedDay
 
                 },
-                label = { Text("Jour de depart", color = Green) },
+                label = { Text("Jour de depart", color = Green, fontFamily = poppins) },
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                 },
@@ -127,7 +127,7 @@ fun Date(businessAccountViewModel: BusinessAccountViewModel,adminViewModel: Admi
             ) {
                 days.forEach { day ->
                     DropdownMenuItem(
-                        text = { Text(day, ) },
+                        text = { Text(day, fontFamily = poppins ) },
                         onClick = {
                             selectedDay = day
                             expanded = false

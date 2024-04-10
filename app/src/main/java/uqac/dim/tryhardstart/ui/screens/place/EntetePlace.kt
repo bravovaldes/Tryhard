@@ -11,6 +11,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,10 +25,12 @@ import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.amaranth
 import uqac.dim.tryhardstart.ui.theme.monsterart
 import uqac.dim.tryhardstart.ui.theme.poppins
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
+import uqac.dim.tryhardstart.viewmodel.Trajet
 
 @Composable
-fun EntetePlace(){
-
+fun EntetePlace(rechercheViewModel: RechercheViewModel){
+    val trajets by rechercheViewModel.trajets.collectAsState()
     Column (
         modifier = Modifier
             .fillMaxWidth()
@@ -54,9 +58,9 @@ fun EntetePlace(){
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Douala", fontSize = 25.sp, color = Color.White,fontWeight = FontWeight.Bold, fontFamily = amaranth)
+            Text(text = rechercheViewModel.villeDepartTrajet.value, fontSize = 25.sp, color = Color.White,fontWeight = FontWeight.Bold, fontFamily = amaranth)
             Icon(painter = painterResource(id = R.drawable.baseline_swap_horiz_24), modifier = Modifier.size(30.dp), contentDescription = null, tint = Color.White)
-            Text(text = "Yaounde", fontSize = 25.sp, fontWeight = FontWeight.Bold, fontFamily = amaranth, color = Color.White)
+            Text(text = rechercheViewModel.villeArriveTrajet.value, fontSize = 25.sp, fontWeight = FontWeight.Bold, fontFamily = amaranth, color = Color.White)
         }
 
     }

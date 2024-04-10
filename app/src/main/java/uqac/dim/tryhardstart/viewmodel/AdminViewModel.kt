@@ -51,6 +51,7 @@ class AdminViewModel :ViewModel(){
             val seatData = hashMapOf(
                 "numeroChaise" to numeroChaise,
                 "reserved" to false
+
             )
             seatsRef.document(numeroChaise).set(seatData)
                 .addOnSuccessListener {

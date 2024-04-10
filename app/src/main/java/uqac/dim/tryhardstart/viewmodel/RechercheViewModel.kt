@@ -43,6 +43,7 @@ class RechercheViewModel():ViewModel(){
     val villeDepart = _villeDepart
     val villeArrivee = _villeArrivee
     var currentBusId = mutableStateOf("")
+    var bouttonPayer = mutableStateOf(false)
     var villeDepartTrajet = mutableStateOf("")
     var villeArriveTrajet = mutableStateOf("")
     var dateTrajet = mutableStateOf("")

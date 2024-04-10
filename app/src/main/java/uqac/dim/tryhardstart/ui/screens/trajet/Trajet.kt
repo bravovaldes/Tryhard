@@ -33,6 +33,13 @@ fun Trajet(rechercheViewModel: RechercheViewModel,navController: NavController,a
         Entete(rechercheViewModel,trajets)
     LazyColumn {
        items(trajets){trajet->
+           rechercheViewModel.villeArriveTrajet.value = trajet.villeArrive
+           rechercheViewModel.villeDepartTrajet.value = trajet.villeDepart
+           rechercheViewModel.matriculeTrajet.value = trajet.idBus
+           rechercheViewModel.promotionTrajet.value = trajet.promotion
+           rechercheViewModel.prixTrajet.value = trajet.prix
+           rechercheViewModel.heureFinTrajet.value = trajet.heureArrivee
+           rechercheViewModel.heureDebutTrajet.value = trajet.heureDepart
            Box {
 //               rechercheViewModel.currentBusId.value = trajet.idBus
 //               adminViewModel.currentBusId.value = trajet.idBus
