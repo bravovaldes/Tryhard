@@ -15,6 +15,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,12 +35,13 @@ import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.poppins
 import uqac.dim.tryhardstart.ui.theme.roboto
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 import uqac.dim.tryhardstart.viewmodel.SignupViewModel
 
 @Composable
-fun LoginPage(navController: NavController,signupViewModel: SignupViewModel){
+fun LoginPage(navController: NavController,signupViewModel: SignupViewModel,rechercheViewModel: RechercheViewModel){
     val isLoading by signupViewModel.isLoading.collectAsState()
-
+    val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             Image(
@@ -47,10 +50,12 @@ fun LoginPage(navController: NavController,signupViewModel: SignupViewModel){
                     .height(200.dp),
                 painter = painterResource(id = R.drawable.loginpage) ,
                 contentDescription = null )
-            Forms(navController,signupViewModel)
+            Forms(navController,signupViewModel,rechercheViewModel)
         }
         if (isLoading){
-
+             LaunchedEffect(true){
+                 rechercheViewModel.playSound(context,R.raw.rush)
+             }
             Box(
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -86,7 +91,9 @@ fun LoginPage(navController: NavController,signupViewModel: SignupViewModel){
                             strokeCap = StrokeCap.Square,
                             color = Green
                         )
-                        Text(text = "Nous traitons vos informations", modifier = Modifier.width(250.dp).padding(10.dp), fontFamily = poppins, fontWeight = FontWeight.Bold, fontSize = 22.sp, textAlign = TextAlign.Center)
+                        Text(text = "Nous traitons vos informations", modifier = Modifier
+                            .width(250.dp)
+                            .padding(10.dp), fontFamily = poppins, fontWeight = FontWeight.Bold, fontSize = 22.sp, textAlign = TextAlign.Center)
                         Text(text = "Cela peut prendre quelques secondes", modifier = Modifier.width(250.dp), textAlign = TextAlign.Center, fontFamily = poppins)
                     }
 

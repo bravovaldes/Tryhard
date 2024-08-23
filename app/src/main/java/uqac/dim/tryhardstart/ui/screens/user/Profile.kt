@@ -32,11 +32,12 @@ import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.amaranth
 import uqac.dim.tryhardstart.ui.theme.arial
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 
 @Composable
-fun Profile(){
+fun Profile(rechercheViewModel: RechercheViewModel){
     Column(
-        modifier = Modifier.padding(horizontal = 0.dp)
+        modifier = Modifier.padding(horizontal = 4.dp, vertical = 20.dp)
     ) {
         Row {
             Icon(
@@ -98,13 +99,13 @@ fun Profile(){
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Text(
-                        text = "Mezankou Valdes Bravo",
+                        text = rechercheViewModel.nomReservateur.value,
                         fontWeight = FontWeight.Bold,
                         fontFamily = amaranth,
                         fontSize = 20.sp
                         )
                     Text(
-                        text = "+1 (418) 490-1849",
+                        text = rechercheViewModel.numeroTelephone.value,
                         fontFamily = arial,
                         fontSize = 16.sp
                         

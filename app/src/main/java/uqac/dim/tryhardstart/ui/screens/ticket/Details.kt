@@ -31,9 +31,10 @@ import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.monsterart
 import uqac.dim.tryhardstart.ui.theme.poppins
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 
 @Composable
-fun Details(){
+fun Details(rechercheViewModel: RechercheViewModel){
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -67,7 +68,7 @@ fun Details(){
             ) {
                 Text(modifier = Modifier
                     .fillMaxWidth()
-                    , text = "418-490-XXXX",
+                    , text = rechercheViewModel.numeroTelephone.value,
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center)
@@ -79,8 +80,8 @@ fun Details(){
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = "11:30", fontWeight = FontWeight.Bold)
-                    Text(text = "16:30", fontWeight = FontWeight.Bold)
+                    Text(text = rechercheViewModel.heureDebutTrajet.value, fontWeight = FontWeight.Bold)
+                    Text(text = rechercheViewModel.heureFinTrajet.value, fontWeight = FontWeight.Bold)
                 }
                 ProgressBar()
                 Row(
@@ -99,7 +100,7 @@ fun Details(){
                 ){
                     Column {
                         Text(text = "Date:", fontWeight = FontWeight.Bold, color = Color.Black.copy(0.4f))
-                        Text(text = "12 Oct 2024", fontFamily = poppins, fontWeight = FontWeight.Bold)
+                        Text(text = rechercheViewModel.dateTrajet.value, fontFamily = poppins, fontWeight = FontWeight.Bold)
                     }
                     Card(
                         modifier = Modifier.height(40.dp),
@@ -112,12 +113,12 @@ fun Details(){
                             modifier = Modifier.fillMaxHeight(),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(text = "Place: A2", modifier = Modifier.padding(horizontal = 10.dp), fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+                            Text(text = "Place: "+rechercheViewModel.numeroChaise1.value+rechercheViewModel.numeroChaise.value, modifier = Modifier.padding(horizontal = 10.dp), fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
 
                         }
                     }
                 }
-                Passager()
+                Passager(rechercheViewModel)
                 Image(painter = painterResource(id = R.drawable.img_1), modifier = Modifier.fillMaxWidth(), contentDescription =null )
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),

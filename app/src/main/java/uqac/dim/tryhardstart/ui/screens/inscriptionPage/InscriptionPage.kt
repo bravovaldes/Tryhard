@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -22,12 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 import uqac.dim.tryhardstart.viewmodel.SignupViewModel
 
 @Composable
-fun InscriptionPage(navController: NavController, signupViewModel: SignupViewModel){
+fun InscriptionPage(navController: NavController, signupViewModel: SignupViewModel,rechercheViewModel: RechercheViewModel){
     val context = LocalContext.current
     val isLoading by signupViewModel.isLoading.collectAsState()
     LazyColumn(
@@ -47,7 +50,9 @@ fun InscriptionPage(navController: NavController, signupViewModel: SignupViewMod
                     Formulaire(signupViewModel,navController)
                 }
                 if (isLoading){
-
+                    LaunchedEffect(true){
+                        rechercheViewModel.playSound(context, R.raw.traitonsconnexion)
+                    }
                     Box(
                         modifier = Modifier
                             .align(Alignment.Center)

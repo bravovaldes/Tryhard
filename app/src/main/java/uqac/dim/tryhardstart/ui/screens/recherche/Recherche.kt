@@ -57,6 +57,7 @@ import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 fun Recherche(navController: NavController,businessAccountViewModel: BusinessAccountViewModel,rechercheViewModel: RechercheViewModel,adminViewModel: AdminViewModel){
   LaunchedEffect(Unit){
       businessAccountViewModel.verificationSuccess()
+      rechercheViewModel.tikectBook()
   }
     LazyColumn(
         modifier = Modifier.fillMaxSize(1f)
@@ -79,7 +80,7 @@ fun Recherche(navController: NavController,businessAccountViewModel: BusinessAcc
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     Entete()
-                    Desciption(businessAccountViewModel)
+                    Desciption(businessAccountViewModel,rechercheViewModel)
                 }
             }
             Column (

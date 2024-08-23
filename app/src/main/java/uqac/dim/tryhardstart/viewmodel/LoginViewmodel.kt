@@ -67,6 +67,7 @@ class SignupViewModel(): ViewModel(){
     var emailError = mutableStateOf<String?>(null)
     var passwordError = mutableStateOf<String?>(null)
     var confirmPasswordError = mutableStateOf<String?>(null)
+    var verifAuthe = mutableStateOf<Boolean>(false)
 
     fun validateUsername() {
         usernameError.value = if (username.value.length < 3) " Doit contenir au moins 3 caractères." else null
@@ -159,21 +160,24 @@ class SignupViewModel(): ViewModel(){
                         "Numero Telephone" to phoneNumer.value
                     )
                     val userId = mAuth.currentUser?.uid ?: return@addOnCompleteListener
-                    Firebase.firestore.collection("utilisateurs")
-                        .document(userId)
-                        .set(user)
-                        .addOnSuccessListener {
-                            isLoading.value = false
-                            Log.d("Firestore", "DocumentSnapshot added")
-                            signupStatusMessage.value = "Enregistrement réussi"
-                            // Vous pouvez également gérer la navigation ou d'autres actions post-enregistrement ici
-                        }
-                        .addOnFailureListener { e ->
-                            isLoading.value = false
-                            Log.w("Firestore", "Error adding document", e)
-                            signupStatusMessage.value = "Échec de l'enregistrement"
-                        }
-                    message.value = "Verification successful"
+                    if (!verifAuthe.value){
+                        Firebase.firestore.collection("utilisateurs")
+                            .document(userId)
+                            .set(user)
+                            .addOnSuccessListener {
+                                isLoading.value = false
+                                Log.d("Firestore", "DocumentSnapshot added")
+                                signupStatusMessage.value = "Enregistrement réussi"
+                                // Vous pouvez également gérer la navigation ou d'autres actions post-enregistrement ici
+                            }
+                            .addOnFailureListener { e ->
+                                isLoading.value = false
+                                Log.w("Firestore", "Error adding document", e)
+                                signupStatusMessage.value = "Échec de l'enregistrement$e"
+                            }
+                        message.value = "Verification successful"
+                    }
+
                     //Toast.makeText(context, "Verification successful..", Toast.LENGTH_SHORT).show()
                 } else {
                     // Sign in failed, display a message

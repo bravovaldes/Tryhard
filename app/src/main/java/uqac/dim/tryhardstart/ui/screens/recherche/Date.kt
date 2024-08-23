@@ -38,7 +38,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.joelkanyi.horizontalcalendar.HorizontalCalendarView
 import com.mrerror.singleRowCalendar.SingleRowCalendar
 import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Green

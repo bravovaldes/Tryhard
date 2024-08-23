@@ -37,8 +37,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Green
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
@@ -79,6 +81,7 @@ fun NumeroPlace(rechercheViewModel: RechercheViewModel){
         "H3", "H4",
         "I3", "I4"
     )
+    val context = LocalContext.current
     Log.d("id",rechercheViewModel.currentBusId.value)
     Row(
     ) {
@@ -106,6 +109,7 @@ fun NumeroPlace(rechercheViewModel: RechercheViewModel){
                         .clickable(
                             enabled = !item.reserved
                         ) {
+                            rechercheViewModel.playSound(context, R.raw.place)
                             rechercheViewModel.numeroChaise1.value = item.numeroChaise
                             numeroPlace1.value = item.numeroChaise
                             boutton = !boutton

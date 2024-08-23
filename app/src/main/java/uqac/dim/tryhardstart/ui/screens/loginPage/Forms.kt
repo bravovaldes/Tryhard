@@ -60,11 +60,12 @@ import uqac.dim.tryhardstart.ui.theme.amaranth
 import uqac.dim.tryhardstart.ui.theme.arial
 import uqac.dim.tryhardstart.ui.theme.poppins
 import uqac.dim.tryhardstart.ui.theme.roboto
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 import uqac.dim.tryhardstart.viewmodel.SignupViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Forms(navController: NavController,signupViewModel: SignupViewModel){
+fun Forms(navController: NavController,signupViewModel: SignupViewModel,rechercheViewModel: RechercheViewModel){
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val focusRequester = FocusRequester()
@@ -157,6 +158,7 @@ fun Forms(navController: NavController,signupViewModel: SignupViewModel){
         }
         LaunchedEffect(complete){
             if (complete){
+                rechercheViewModel.playSound(context,R.raw.notification_connexion)
                 navController.navigate("codeOtp")
             }
         }
@@ -219,6 +221,7 @@ fun Forms(navController: NavController,signupViewModel: SignupViewModel){
             ),
             shape = RoundedCornerShape(5.dp),
             onClick = {
+                signupViewModel.verifAuthe.value=true
                 signupViewModel.sendVerificationCode(fullPhoneNumber, context as Activity)
                 phone = if (isNumberValid){
                     "Numero valide"

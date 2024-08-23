@@ -15,16 +15,19 @@ class AdminViewModel :ViewModel(){
     var prix = mutableStateOf("")
     var promotion = mutableStateOf<Boolean>(false)
     var currentBusId = mutableStateOf("")
+    var heureDepartSeconds = mutableStateOf(0)
 
     fun saveDataToFirestore() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val db = FirebaseFirestore.getInstance()
+
         val reservationData = hashMapOf(
             "idAgence" to userId,
             "villeDepart" to villeDepart.value,
             "villeArrive" to villeArrive.value,
             "dateDepart" to dateDepart.value,
             "heureDepart" to heureDepart.value,
+            "heureDepartSeconds" to heureDepartSeconds.value,
             "heureArrive" to heureArrive.value,
             "matricule" to matricule.value,
             "prix" to prix.value,
@@ -50,8 +53,8 @@ class AdminViewModel :ViewModel(){
         numerosDePlaces.forEach { numeroChaise ->
             val seatData = hashMapOf(
                 "numeroChaise" to numeroChaise,
-                "reserved" to false
-
+                "reserved" to false,
+                "nom" to ""
             )
             seatsRef.document(numeroChaise).set(seatData)
                 .addOnSuccessListener {
@@ -71,7 +74,8 @@ class AdminViewModel :ViewModel(){
         numerosDePlaces1.forEach { numeroChaise ->
             val seatData = hashMapOf(
                 "numeroChaise" to numeroChaise,
-                "reserved" to false
+                "reserved" to false,
+                "nom" to ""
             )
             seatsRef1.document(numeroChaise).set(seatData)
                 .addOnSuccessListener {

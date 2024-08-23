@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import uqac.dim.tryhardstart.ui.theme.Green
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 
 @Composable
-fun Ticket(){
+fun Ticket(rechercheViewModel: RechercheViewModel){
     Column {
-        Details()
+        Details(rechercheViewModel)
         Button(
             onClick = { /*TODO*/ },
             shape = RoundedCornerShape(8.dp),

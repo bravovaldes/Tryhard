@@ -1,5 +1,6 @@
 package uqac.dim.tryhardstart.ui.screens.agence.ajouterBus
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -101,7 +102,8 @@ fun HeureDepart(adminViewModel: AdminViewModel){
                 readOnly = true,
                 value = selectedOptionText,
                 onValueChange = {
-                                adminViewModel.heureDepart.value= selectedOptionText
+                    adminViewModel.heureDepart.value= selectedOptionText
+
                 },
                 //label = { Text("DEPART", fontSize = 16.sp, fontWeight = FontWeight.Bold, ) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -150,6 +152,17 @@ fun HeureDepart(adminViewModel: AdminViewModel){
                                         .padding(11.dp)
                                         .clickable {
                                             selectedOptionText = it
+                                            val parts = selectedOptionText.split("H:")
+
+                                            if (parts.size == 2) {
+                                                val hours = parts[0].toIntOrNull() ?: 0
+                                                val minutes = parts[1].toIntOrNull() ?: 0
+                                                // Conversion en secondes
+                                                val totalSeconds = hours * 3600 + minutes * 60
+                                                Log.d("second",totalSeconds.toString())
+                                                // Mise à jour de la variable dans le ViewModel
+                                                adminViewModel.heureDepartSeconds.value = totalSeconds
+                                            }
                                             expanded=false
                                         }
 

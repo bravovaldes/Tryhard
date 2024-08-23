@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         NavHost(navController = navController, startDestination = if(authState.value!=null) "Accueil" else "Login") {
                             composable("Inscription") {
-                                InscriptionPage(navController,signupViewModel)
+                                InscriptionPage(navController,signupViewModel,rechercheViewModel)
                                 signupViewModel.setShowBottomNav(true)
                             }
                             composable("codeOtp") { PageOtp(navController,signupViewModel,businessAccountViewModel) }
@@ -83,10 +83,10 @@ class MainActivity : ComponentActivity() {
 
                             }
                             composable("User"){
-                                User(navController,signupViewModel,businessAccountViewModel)
+                                User(navController,signupViewModel,businessAccountViewModel,rechercheViewModel)
                             }
                             composable("Login"){
-                                LoginPage(navController,signupViewModel)
+                                LoginPage(navController,signupViewModel,rechercheViewModel)
                                 signupViewModel.setShowBottomNav(true)
 
                             }
@@ -97,12 +97,12 @@ class MainActivity : ComponentActivity() {
                                 Trajet(rechercheViewModel,navController,adminViewModel)
                             }
                             composable("place"){
-                                Place(rechercheViewModel)
+                                Place(rechercheViewModel,navController)
                                 signupViewModel.setShowBottomNav(true)
 
                             }
                             composable("Ticket"){
-                                Ticket()
+                                Ticket(rechercheViewModel)
                             }
 
                         }

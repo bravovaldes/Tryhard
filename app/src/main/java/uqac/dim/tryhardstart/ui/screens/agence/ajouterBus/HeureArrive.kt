@@ -62,7 +62,7 @@ fun HeureArrive(adminViewModel: AdminViewModel){
         "${hour.toString().padStart(2, '0')}H:$minute"
     }
     var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf(options[0]) }
+    var selectedOptionText by remember { mutableStateOf(options[4]) }
     adminViewModel.heureArrive.value = selectedOptionText
     val shape = if (expanded) RoundedCornerShape(8.dp).copy(bottomEnd = CornerSize(0.dp), bottomStart = CornerSize(0.dp))
     else RoundedCornerShape(8.dp)

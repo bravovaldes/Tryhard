@@ -13,12 +13,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import uqac.dim.tryhardstart.viewmodel.BusinessAccountViewModel
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 import uqac.dim.tryhardstart.viewmodel.SignupViewModel
 
 @Composable
-fun User(navController: NavController,signupViewModel: SignupViewModel,businessAccountViewModel: BusinessAccountViewModel){
+fun User(navController: NavController,signupViewModel: SignupViewModel,businessAccountViewModel: BusinessAccountViewModel,rechercheViewModel: RechercheViewModel){
     Column {
-        Profile()
+        Profile(rechercheViewModel)
         HorizontalDivider(
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
             thickness = 2.dp

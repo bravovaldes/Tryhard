@@ -13,12 +13,13 @@ import uqac.dim.tryhardstart.ui.theme.amaranth
 import uqac.dim.tryhardstart.ui.theme.arial
 import uqac.dim.tryhardstart.ui.theme.poppins
 import uqac.dim.tryhardstart.viewmodel.BusinessAccountViewModel
+import uqac.dim.tryhardstart.viewmodel.RechercheViewModel
 
 @Composable
-fun Desciption(businessAccountViewModel: BusinessAccountViewModel){
+fun Desciption(businessAccountViewModel: BusinessAccountViewModel,rechercheViewModel: RechercheViewModel){
 
     Column {
-        Text(text = "Bonjour Bravo,", color = Color.White, fontFamily = arial)
+        Text(text = "Bonjour, "+rechercheViewModel.nomReservateur.value, color = Color.White, fontFamily = arial)
 
         Text(
             text =if ((businessAccountViewModel.modeUser.value)) "Reservez Votre Ticket" else "Démarrer l'exploitation d'un bus",

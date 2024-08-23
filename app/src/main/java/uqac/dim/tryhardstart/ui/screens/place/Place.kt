@@ -42,6 +42,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import uqac.dim.tryhardstart.R
 import uqac.dim.tryhardstart.ui.theme.Orange
 import uqac.dim.tryhardstart.ui.theme.amaranth
@@ -53,8 +54,10 @@ import uqac.dim.tryhardstart.viewmodel.Trajet
 
 
 @Composable
-fun Place(rechercheViewModel: RechercheViewModel){
-
+fun Place(rechercheViewModel: RechercheViewModel,navController: NavController){
+    LaunchedEffect(Unit){
+        rechercheViewModel.tikectBook()
+    }
     Column {
         Box {
             EntetePlace(rechercheViewModel)
@@ -177,8 +180,12 @@ fun Place(rechercheViewModel: RechercheViewModel){
             if (rechercheViewModel.bouttonPayer.value){
                 Button(
                     onClick = {
-                        rechercheViewModel.updateSeatStatus()
-                        rechercheViewModel.updateSeatStatusGauche()
+                        //rechercheViewModel.tikectBook()
+                            rechercheViewModel.updateSeatStatus()
+                            rechercheViewModel.updateSeatStatusGauche()
+                        navController.navigate("Ticket")
+
+
                     },
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
